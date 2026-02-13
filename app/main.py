@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware  # <--- 1. NUEVO: Importar middleware
 
 from app.api.v1_endpoints import router as api_router
 from app.core.config import settings
@@ -9,6 +10,20 @@ app = FastAPI(
     version=settings.PROJECT_VERSION,
     description=settings.DESCRIPTION,
 )
+
+# --- 2. NUEVO: Configuración de CORS ---
+# Esto permite que el navegador acepte respuestas de tu API cuando la pide el frontend
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=[
+        "http://localhost:5173",
+        "http://127.0.0.1:5173",
+    ],  # Los puertos de Vite
+    allow_credentials=True,
+    allow_methods=["*"],  # Permitir todos los métodos (GET, POST, OPTIONS, etc.)
+    allow_headers=["*"],  # Permitir todos los headers
+)
+# ---------------------------------------
 
 # 2. Incluir las rutas (endpoints)
 # El prefijo "/api/v1" es buena práctica para versiones futuras
