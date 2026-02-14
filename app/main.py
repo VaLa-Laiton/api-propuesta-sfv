@@ -12,16 +12,21 @@ app = FastAPI(
 )
 
 # --- 2. NUEVO: Configuración de CORS ---
-# Esto permite que el navegador acepte respuestas de tu API cuando la pide el frontend
+# --- CONFIGURACIÓN CORS ACTUALIZADA ---
+origins = [
+    "http://localhost:5173",
+    "http://127.0.0.1:5173",
+    "http://3.131.90.46",  # Tu IP pública (acceso directo)
+    "http://propuesta-sfv.duckdns.org",  # Tu dominio HTTP
+    "https://propuesta-sfv.duckdns.org",  # Tu dominio HTTPS (Importante)
+]
+
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[
-        "http://localhost:5173",
-        "http://127.0.0.1:5173",
-    ],  # Los puertos de Vite
+    allow_origins=origins,
     allow_credentials=True,
-    allow_methods=["*"],  # Permitir todos los métodos (GET, POST, OPTIONS, etc.)
-    allow_headers=["*"],  # Permitir todos los headers
+    allow_methods=["*"],
+    allow_headers=["*"],
 )
 # ---------------------------------------
 
